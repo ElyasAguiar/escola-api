@@ -3,6 +3,6 @@ from fastapi import APIRouter
 router = APIRouter()
 
 
-@router.get("/")
+@router.get("/start_point/")
 def get_start_point():
-    return "start_point app created!"
+    return {"health": "check!"}
