@@ -12,6 +12,7 @@ ENV POSTGRES_DB=${POSTGRES_PASSWORD}
 
 ENV PYTHONPATH "${PYTHONPATH}:/"
 ENV PORT=8000
+EXPOSE 8000
 
 # Install Poetry
 RUN pip install fastapi uvicorn poetry wheel virtualenv
