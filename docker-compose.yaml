@@ -5,13 +5,20 @@ services:
     build:
       context: .
       dockerfile: local.Dockerfile
-    env_file:
-      - .env
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_SERVER=database
+      - POSTGRES_DB=escoladb
+      - BACKEND_CORS_ORIGINS=["http://localhost:8000", "https://localhost:8000", "http://localhost", "https://localhost"]
     ports:
       - "8000:8000"
   database:
     image: postgres:12
-    env_file:
-      - .env
+    hostname: database
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
     ports:
       - "5432:5432"
