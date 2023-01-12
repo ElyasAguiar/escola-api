@@ -3,7 +3,7 @@ from os import environ
 
 from app.database import Base
 from app.core.config import settings
-from start_point.models.models import Aluno
+from start_point.models.models import Aluno, Professor, Titulo
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -17,7 +17,6 @@ def get_url():
     password = environ.get("POSTGRED_PASSWORD", settings.POSTGRES_PASSWORD)
     server = environ.get("POSTGRES_SERVER", "localhost")
     db = environ.get("POSTGRES_DB", settings.POSTGRES_DB)
-    print(f"AQUI {server} : {password} : {db}")
     return f"postgresql://{user}:{password}@{server}/{db}"
 
 

@@ -1,4 +1,12 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey, Float, Boolean
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    Text,
+    ForeignKey,
+    Float,
+    Boolean,
+)
 from sqlalchemy.orm import relationship
 
 from app.database import Base
@@ -19,10 +27,43 @@ from app.database import Base
 class Aluno(Base):
     __tablename__ = "aluno"
 
-    id_aluno = Column(Integer, primary_key=True, autoincrement=True, index=True)
+    id_aluno = Column(
+        Integer, primary_key=True, autoincrement=True, index=True
+    )
     tx_nome = Column(String, index=True)
     tx_sexo = Column(String, index=True)
     dt_nascimento = Column(String, index=True)
+
+    class Config:
+        orm_mode = True
+
+
+class Professor(Base):
+    __tablename__ = "professor"
+
+    id_professor = Column(
+        Integer, primary_key=True, autoincrement=True, index=True
+    )
+    id_titulo = Column(Integer, ForeignKey("titulo.id_titulo"))
+    tx_nome = Column(String, index=True)
+    tx_sexo = Column(String, index=True)
+    tx_estado_civil = Column(String, index=True)
+    dt_nascimento = Column(String, index=True)
+    tx_telefone = Column(String, index=True)
+
+    fk_titulo_to_professor = relationship("Titulo")
+
+    class Config:
+        orm_mode = True
+
+
+class Titulo(Base):
+    __tablename__ = "titulo"
+
+    id_titulo = Column(
+        Integer, primary_key=True, autoincrement=True, index=True
+    )
+    tx_descricao = Column(String, index=True)
 
     class Config:
         orm_mode = True
@@ -110,26 +151,6 @@ class Leciona(Base):
     class Config:
         orm_mode = True
 
-
-class Professor(Base):
-    __tablename__ = "professor"
-
-    id_professor = Column(
-        Integer, primary_key=True, autoincrement=True, index=True
-    )
-    id_titulo = Column(Integer, ForeignKey("titulo.id_titulo"))
-    tx_nome = Column(String, index=True)
-    tx_sexo = Column(String, index=True)
-    tx_estado_civil = Column(String, index=True)
-    dt_nascimento = Column(String, index=True)
-    tx_telefone = Column(String, index=True)
-
-    fk_titulo_to_professor = relationship("Titulo")
-
-    class Config:
-        orm_mode = True
-
-
 class TipoCurso(Base):
     __tablename__ = "tipo_curso"
 
@@ -154,14 +175,5 @@ class TipoDisciplina(Base):
         orm_mode = True
 
 
-class Titulo(Base):
-    __tablename__ = "titulo"
 
-    id_titulo = Column(
-        Integer, primary_key=True, autoincrement=True, index=True
-    )
-    tx_descricao = Column(String, index=True)
-
-    class Config:
-        orm_mode = True
 """
