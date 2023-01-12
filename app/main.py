@@ -22,16 +22,24 @@ def custom_openapi():
     return app.openapi_schema
 
 
-
-
 def get_application():
     _app = FastAPI(title=settings.PROJECT_NAME)
 
     _app.add_middleware(
         CORSMiddleware,
-        allow_origins=[str(origin) for origin in settings.BACKEND_CORS_ORIGINS],
+        allow_origins=[
+            str(origin) for origin in settings.BACKEND_CORS_ORIGINS
+        ],
         allow_credentials=True,
-        allow_methods=["*"],
+        allow_methods=[
+            "POST",
+            "GET",
+            "PUT",
+            "PATCH",
+            "DEL",
+            "DELETE",
+            "OPTIONS",
+        ],
         allow_headers=["*"],
     )
     _app.include_router(start_point)
