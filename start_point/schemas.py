@@ -31,6 +31,25 @@ class Aluno(BaseModel):
         orm_mode = True
 
 
+class Professor(BaseModel):
+    id_titulo: int
+    tx_nome: str
+    tx_sexo: str
+    tx_estado_civil: str
+    dt_nascimento: str
+    tx_telefone: str
+
+    class Config:
+        orm_mode = True
+
+
+class Titulo(BaseModel):
+    tx_descricao: str
+
+    class Config:
+        orm_mode = True
+
+
 """class Cursa(BaseModel):
     id_aluno: int
     id_disciplina: int
@@ -85,20 +104,6 @@ class Leciona(BaseModel):
     class Config:
         orm_mode = True
 
-
-class Professor(BaseModel):
-    id_professor: int
-    id_titulo: int
-    tx_nome: str
-    tx_sexo: str
-    tx_estado_civil: str
-    dt_nascimento: str
-    tx_telefone: str
-
-    class Config:
-        orm_mode = True
-
-
 class TipoCurso(BaseModel):
     id_tipo_curso: int
     tx_descricao: str
@@ -114,11 +119,4 @@ class TipoDisciplina(BaseModel):
     class Config:
         orm_mode = True
 
-
-class Titulo(BaseModel):
-    id_titulo: int
-    tx_descricao: str
-
-    class Config:
-        orm_mode = True
 """
