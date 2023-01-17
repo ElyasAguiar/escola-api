@@ -120,11 +120,14 @@ def del_titulo_by_id(titulo_id: str, db: Session = Depends(get_db)):
         raise error
 
 
-@router.post("/start_point/create_professor", name="Cadastrar Professor")
+@router.post("/start_point/professor", name="Cadastrar Professor")
 def post_professor(professor: Professor, db: Session = Depends(get_db)):
     try:
         create_professor(db, professor)
-        return professor
+        return JSONResponse(
+            status_code=status.HTTP_201_CREATED,
+            content={"inserted": True, "data": professor.dict()},
+        )
     except Exception as error:
         logging.error("Error: ", error)
         raise {"message": error}
