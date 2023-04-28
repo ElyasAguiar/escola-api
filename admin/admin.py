@@ -2,9 +2,9 @@ from fastapi_amis_admin import i18n
 
 i18n.set_language(language="en_US")
 
+from fastapi_amis_admin.admin import admin
 from fastapi_amis_admin.admin.settings import Settings
 from fastapi_amis_admin.admin.site import AdminSite
-from fastapi_amis_admin.admin import admin
 from fastapi_amis_admin.amis.components import PageSchema
 
 from app.core.config import settings

@@ -1,6 +1,6 @@
-from sqlalchemy import create_engine
+from starlette_admin.contrib.sqla import Admin
+
 from app.database import engine
-from starlette_admin.contrib.sqla import Admin, ModelView
 
 # from start_point.models.models import Aluno
 

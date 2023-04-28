@@ -1,8 +1,7 @@
 import logging
 
-from fastapi import status, HTTPException
+from fastapi import HTTPException, status
 from sqlalchemy import asc
-
 from sqlmodel import Session
 
 from start_point import schemas
@@ -28,7 +27,7 @@ def create_professor(db: Session, professor: schemas.Professor):
         raise error
 
 
-def get_all_professor(db: SessionLocal, search: str = ""):
+def get_all_professor(db: Session, search: str = ""):
     try:
         professor = (
             db.query(models.Professor)
@@ -42,7 +41,7 @@ def get_all_professor(db: SessionLocal, search: str = ""):
         raise error
 
 
-def query_professor_by_id(db: SessionLocal, professor_id: int):
+def query_professor_by_id(db: Session, professor_id: int):
     try:
         professor = (
             db.query(models.Professor)
@@ -65,7 +64,7 @@ def query_professor_by_id(db: SessionLocal, professor_id: int):
 
 
 def update_professor_by_id(
-    db: SessionLocal, professor_id: int, payload: schemas.Professor
+    db: Session, professor_id: int, payload: schemas.Professor
 ):
     try:
         professor_query = db.query(models.Professor).filter(
@@ -95,7 +94,7 @@ def update_professor_by_id(
         raise error
 
 
-def delete_professor_by_id(professor_id: str, db: SessionLocal):
+def delete_professor_by_id(professor_id: str, db: Session):
     professor_query = db.query(models.Professor).filter(
         models.Professor.id_professor == professor_id
     )

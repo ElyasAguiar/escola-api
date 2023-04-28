@@ -2,11 +2,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.utils import get_openapi
 
-from start_point.api.v1 import router as start_point
+from admin.admin import site
 from app.core.config import settings
 from app.database import create_db_and_tables
-
-from admin.admin import site
+from start_point.api.v1 import router as start_point
 
 
 def custom_openapi():
