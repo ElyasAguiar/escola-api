@@ -1,15 +1,7 @@
-from sqlalchemy import (
-    Column,
-    Integer,
-    String,
-    Text,
-    ForeignKey,
-    Float,
-    Boolean,
-)
-from sqlalchemy.orm import relationship
+from typing import Optional, List
+from sqlmodel import SQLModel, Field, Relationship
 
-from app.database import Base
+# from app.database import Base
 
 
 """class Company(Base):
@@ -23,47 +15,57 @@ from app.database import Base
     email = Column(String, index=True)
     telefone = Column(String(14), index=True)"""
 
+# class Aluno(Base):
+#     __tablename__ = "aluno"
+#
+#     id_aluno = Column(
+#         Integer, primary_key=True, autoincrement=True, index=True
+#     )
+#     tx_nome = Column(String, index=True)
+#     tx_sexo = Column(String, index=True)
+#     dt_nascimento = Column(String, index=True)
+#
+#     class Config:
+#         orm_mode = True
 
-class Aluno(Base):
+
+class Aluno(SQLModel, table=True):
     __tablename__ = "aluno"
 
-    id_aluno = Column(
-        Integer, primary_key=True, autoincrement=True, index=True
-    )
-    tx_nome = Column(String, index=True)
-    tx_sexo = Column(String, index=True)
-    dt_nascimento = Column(String, index=True)
+    id: Optional[int] = Field(alias="id_aluno", default=None, primary_key=True)
+    tx_nome: str = Field(alias="tx_nome", default=None, max_length=100)
+    tx_sexo: str
+    dt_nascimento: str
 
     class Config:
         orm_mode = True
 
 
-class Professor(Base):
-    __tablename__ = "professor"
-
-    id_professor = Column(
-        Integer, primary_key=True, autoincrement=True, index=True
-    )
-    id_titulo = Column(Integer, ForeignKey("titulo.id_titulo"))
-    tx_nome = Column(String, index=True)
-    tx_sexo = Column(String, index=True)
-    tx_estado_civil = Column(String, index=True)
-    dt_nascimento = Column(String, index=True)
-    tx_telefone = Column(String, index=True)
-
-    fk_titulo_to_professor = relationship("Titulo")
-
-    class Config:
-        orm_mode = True
-
-
-class Titulo(Base):
+class Titulo(SQLModel, table=True):
     __tablename__ = "titulo"
 
-    id_titulo = Column(
-        Integer, primary_key=True, autoincrement=True, index=True
-    )
-    tx_descricao = Column(String, index=True)
+    id: int = Field(primary_key=True, default=None, index=True)
+    tx_descricao: str
+
+    professores: List["Professor"] = Relationship(back_populates="titulo")
+
+    class Config:
+        orm_mode = True
+
+
+class Professor(SQLModel, table=True):
+    __tablename__ = "professor"
+
+    id: int = Field(primary_key=True, default=None, index=True)
+    id_titulo: Optional[int] = Field(default=None, foreign_key="titulo.id")
+
+    tx_nome: str
+    tx_sexo: str
+    tx_estado_civil: str
+    dt_nascimento: str
+    tx_telefone: str
+
+    titulo: Optional[Titulo] = Relationship(back_populates="professores")
 
     class Config:
         orm_mode = True

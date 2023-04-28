@@ -3,13 +3,13 @@ import logging
 from fastapi import status, HTTPException
 from sqlalchemy import asc
 
-from app.database import SessionLocal
+from sqlmodel import Session
 
 from start_point import schemas
 from start_point.models import models
 
 
-def create_professor(db: SessionLocal, professor: schemas.Professor):
+def create_professor(db: Session, professor: schemas.Professor):
     try:
         data_professor = models.Professor(
             id_titulo=professor.id_titulo,

@@ -2,7 +2,7 @@ import logging, json
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import JSONResponse
 
-from sqlalchemy.orm import Session
+from sqlmodel import Session
 
 from starlette.responses import RedirectResponse
 
@@ -29,7 +29,7 @@ router = APIRouter()
 
 # Dependency
 def get_db():
-    db = SessionLocal()
+    db = SessionLocal
     try:
         yield db
     finally:
@@ -48,12 +48,13 @@ def get_start_point():
 
 @router.post("/start_point/create_aluno", name="Cadastrar Aluno")
 def post_aluno(aluno: Aluno, db: Session = Depends(get_db)):
-    try:
-        create_aluno(db, aluno)
-        return aluno
-    except Exception as error:
-        logging.error("Error: ", error)
-        raise {"message": error}
+    create_aluno(db, aluno)
+    return aluno
+    # try:
+    #
+    # except Exception as error:
+    #     logging.error("Error: ", error)
+    #     raise {"message": error}
 
 
 @router.post("/start_point/titulo", name="Cadastrar Titulo")

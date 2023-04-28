@@ -3,12 +3,12 @@ import logging
 from fastapi import status, HTTPException
 from sqlalchemy import asc
 
-from app.database import SessionLocal
+from sqlmodel import Session
 from start_point import schemas
 from start_point.models import models
 
 
-def create_titulo(db: SessionLocal, titulo: schemas.Titulo):
+def create_titulo(db: Session, titulo: schemas.Titulo):
     try:
         data_titulo = models.Titulo(
             tx_descricao=titulo.tx_descricao,
