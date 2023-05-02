@@ -1,6 +1,4 @@
 from fastapi_amis_admin import i18n
-
-
 from fastapi_amis_admin.admin import admin
 from fastapi_amis_admin.admin.settings import Settings
 from fastapi_amis_admin.admin.site import AdminSite
