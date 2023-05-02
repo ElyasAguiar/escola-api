@@ -53,7 +53,8 @@ def query_professor_by_id(db: Session, professor_id: int):
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail={
                     "status_code": status.HTTP_404_NOT_FOUND,
-                    "message": f"Nenhum professor com este id: {professor_id} foi encontrado.",
+                    "message": f"Nenhum professor com este id: {professor_id} "
+                    / "foi encontrado.",
                 },
             )
             raise response
@@ -76,7 +77,8 @@ def update_professor_by_id(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail={
                     "status_code": status.HTTP_404_NOT_FOUND,
-                    "message": f"Nenhum professor com este id: {professor_id} foi encontrado.",
+                    "message": f"Nenhum professor com este id: {professor_id}"
+                    / "foi encontrado.",
                 },
             )
         update_data = payload.dict(exclude_unset=True)
@@ -104,7 +106,8 @@ def delete_professor_by_id(professor_id: str, db: Session):
             status_code=status.HTTP_404_NOT_FOUND,
             detail={
                 "status_code": status.HTTP_404_NOT_FOUND,
-                "message": f"Nenhum professor com este id: {professor_id} foi encontrado.",
+                "message": f"Nenhum professor com este id: {professor_id}"
+                / " foi encontrado.",
             },
         )
     professor_query.delete(synchronize_session=False)

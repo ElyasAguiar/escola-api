@@ -25,6 +25,7 @@ from start_point.schemas import Aluno, Professor, Titulo
 
 router = APIRouter()
 
+
 # Dependency
 def get_db():
     db = SessionLocal
@@ -46,13 +47,12 @@ def get_start_point():
 
 @router.post("/start_point/create_aluno", name="Cadastrar Aluno")
 def post_aluno(aluno: Aluno, db: Session = Depends(get_db)):
-    create_aluno(db, aluno)
-    return aluno
-    # try:
-    #
-    # except Exception as error:
-    #     logging.error("Error: ", error)
-    #     raise {"message": error}
+    try:
+        create_aluno(db, aluno)
+        return aluno
+    except Exception as error:
+        logging.error("Error: ", error)
+        raise {"message": error}
 
 
 @router.post("/start_point/titulo", name="Cadastrar Titulo")
@@ -146,7 +146,7 @@ def get_professor(db: Session = Depends(get_db)):
     "/start_point/professor/{professor_id}",
     name="Retorna um Professor pelo ID",
 )
-def get_titulo_by_id(professor_id, db: Session = Depends(get_db)):
+def get_professor_by_id(professor_id, db: Session = Depends(get_db)):
     try:
         professor = query_professor_by_id(db, professor_id)
         return {"data": professor}

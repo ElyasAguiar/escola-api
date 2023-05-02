@@ -1,6 +1,5 @@
 from fastapi_amis_admin import i18n
 
-i18n.set_language(language="en_US")
 
 from fastapi_amis_admin.admin import admin
 from fastapi_amis_admin.admin.settings import Settings
@@ -11,10 +10,10 @@ from app.core.config import settings
 from app.database import engine
 from start_point.models.models import Aluno, Professor, Titulo
 
+i18n.set_language(language="en_US")
+
 # Create AdminSite instance
-site = AdminSite(
-    settings=Settings(database_url=settings.DATABASE_URI), engine=engine
-)
+site = AdminSite(settings=Settings(database_url=settings.DATABASE_URI), engine=engine)
 
 
 # Registration management class
