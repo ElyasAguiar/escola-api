@@ -1,0 +1,6 @@
+PROJECT_NAME=escola-api
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=admin
+POSTGRES_SERVER=database
+POSTGRES_DB=escoladb
+BACKEND_CORS_ORIGINS=["http://localhost:8000", "https://localhost:8000", "http://localhost:3000", "https://localhost"]
