@@ -1,35 +1,34 @@
-import logging, json
-from fastapi import APIRouter, Depends, HTTPException, status
+import logging
+
+from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
-
-from sqlalchemy.orm import Session
-
+from sqlmodel import Session
 from starlette.responses import RedirectResponse
 
-from start_point.schemas import Aluno, Professor, Titulo
+from app.database import SessionLocal
 from start_point.repositories.aluno_repository import create_aluno
 from start_point.repositories.professor_repository import (
     create_professor,
+    delete_professor_by_id,
     get_all_professor,
     query_professor_by_id,
     update_professor_by_id,
-    delete_professor_by_id,
 )
 from start_point.repositories.titulo_repository import (
     create_titulo,
+    delete_titulo_by_id,
     get_all_titulos,
     query_titulo_by_id,
     update_titulo_by_id,
-    delete_titulo_by_id,
 )
-
-from app.database import SessionLocal
+from start_point.schemas import Aluno, Professor, Titulo
 
 router = APIRouter()
 
+
 # Dependency
 def get_db():
-    db = SessionLocal()
+    db = SessionLocal
     try:
         yield db
     finally:
@@ -110,7 +109,7 @@ async def put_titulo_by_id(
 @router.delete("/start_point/titulo/{titulo_id}/", name="Excluir um Título")
 def del_titulo_by_id(titulo_id: str, db: Session = Depends(get_db)):
     try:
-        titulo = delete_titulo_by_id(titulo_id, db)
+        delete_titulo_by_id(titulo_id, db)
         return JSONResponse(
             status_code=status.HTTP_204_NO_CONTENT,
             content={"removed": True},
@@ -147,7 +146,7 @@ def get_professor(db: Session = Depends(get_db)):
     "/start_point/professor/{professor_id}",
     name="Retorna um Professor pelo ID",
 )
-def get_titulo_by_id(professor_id, db: Session = Depends(get_db)):
+def get_professor_by_id(professor_id, db: Session = Depends(get_db)):
     try:
         professor = query_professor_by_id(db, professor_id)
         return {"data": professor}
@@ -178,7 +177,7 @@ async def put_professor_by_id(
 )
 def del_professor_by_id(professor_id: str, db: Session = Depends(get_db)):
     try:
-        professor = delete_professor_by_id(professor_id, db)
+        delete_professor_by_id(professor_id, db)
         return JSONResponse(
             status_code=status.HTTP_204_NO_CONTENT,
             content={"removed": True},

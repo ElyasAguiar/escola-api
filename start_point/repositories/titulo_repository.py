@@ -1,14 +1,14 @@
 import logging
 
-from fastapi import status, HTTPException
+from fastapi import HTTPException, status
 from sqlalchemy import asc
+from sqlmodel import Session
 
-from app.database import SessionLocal
 from start_point import schemas
 from start_point.models import models
 
 
-def create_titulo(db: SessionLocal, titulo: schemas.Titulo):
+def create_titulo(db: Session, titulo: schemas.Titulo):
     try:
         data_titulo = models.Titulo(
             tx_descricao=titulo.tx_descricao,
@@ -22,7 +22,7 @@ def create_titulo(db: SessionLocal, titulo: schemas.Titulo):
         raise error
 
 
-def get_all_titulos(db: SessionLocal, search: str = ""):
+def get_all_titulos(db: Session, search: str = ""):
     try:
         titulos = (
             db.query(models.Titulo)
@@ -36,7 +36,7 @@ def get_all_titulos(db: SessionLocal, search: str = ""):
         raise error
 
 
-def query_titulo_by_id(db: SessionLocal, titulo_id: int):
+def query_titulo_by_id(db: Session, titulo_id: int):
     try:
         titulo = (
             db.query(models.Titulo)
@@ -58,9 +58,7 @@ def query_titulo_by_id(db: SessionLocal, titulo_id: int):
         raise error
 
 
-def update_titulo_by_id(
-    db: SessionLocal, titulo_id: int, payload: schemas.Titulo
-):
+def update_titulo_by_id(db: Session, titulo_id: int, payload: schemas.Titulo):
     try:
         titulo_query = db.query(models.Titulo).filter(
             models.Titulo.id_titulo == titulo_id
@@ -89,7 +87,7 @@ def update_titulo_by_id(
         raise error
 
 
-def delete_titulo_by_id(titulo_id: str, db: SessionLocal):
+def delete_titulo_by_id(titulo_id: str, db: Session):
     titulo_query = db.query(models.Titulo).filter(
         models.Titulo.id_titulo == titulo_id
     )

@@ -1,15 +1,14 @@
 import logging
 
-from fastapi import status, HTTPException
+from fastapi import HTTPException, status
 from sqlalchemy import asc
-
-from app.database import SessionLocal
+from sqlmodel import Session
 
 from start_point import schemas
 from start_point.models import models
 
 
-def create_professor(db: SessionLocal, professor: schemas.Professor):
+def create_professor(db: Session, professor: schemas.Professor):
     try:
         data_professor = models.Professor(
             id_titulo=professor.id_titulo,
@@ -28,7 +27,7 @@ def create_professor(db: SessionLocal, professor: schemas.Professor):
         raise error
 
 
-def get_all_professor(db: SessionLocal, search: str = ""):
+def get_all_professor(db: Session, search: str = ""):
     try:
         professor = (
             db.query(models.Professor)
@@ -42,7 +41,7 @@ def get_all_professor(db: SessionLocal, search: str = ""):
         raise error
 
 
-def query_professor_by_id(db: SessionLocal, professor_id: int):
+def query_professor_by_id(db: Session, professor_id: int):
     try:
         professor = (
             db.query(models.Professor)
@@ -54,7 +53,8 @@ def query_professor_by_id(db: SessionLocal, professor_id: int):
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail={
                     "status_code": status.HTTP_404_NOT_FOUND,
-                    "message": f"Nenhum professor com este id: {professor_id} foi encontrado.",
+                    "message": f"Nenhum professor com este id: {professor_id} "
+                    / "foi encontrado.",
                 },
             )
             raise response
@@ -65,7 +65,7 @@ def query_professor_by_id(db: SessionLocal, professor_id: int):
 
 
 def update_professor_by_id(
-    db: SessionLocal, professor_id: int, payload: schemas.Professor
+    db: Session, professor_id: int, payload: schemas.Professor
 ):
     try:
         professor_query = db.query(models.Professor).filter(
@@ -77,7 +77,8 @@ def update_professor_by_id(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail={
                     "status_code": status.HTTP_404_NOT_FOUND,
-                    "message": f"Nenhum professor com este id: {professor_id} foi encontrado.",
+                    "message": f"Nenhum professor com este id: {professor_id}"
+                    / "foi encontrado.",
                 },
             )
         update_data = payload.dict(exclude_unset=True)
@@ -95,7 +96,7 @@ def update_professor_by_id(
         raise error
 
 
-def delete_professor_by_id(professor_id: str, db: SessionLocal):
+def delete_professor_by_id(professor_id: str, db: Session):
     professor_query = db.query(models.Professor).filter(
         models.Professor.id_professor == professor_id
     )
@@ -105,7 +106,8 @@ def delete_professor_by_id(professor_id: str, db: SessionLocal):
             status_code=status.HTTP_404_NOT_FOUND,
             detail={
                 "status_code": status.HTTP_404_NOT_FOUND,
-                "message": f"Nenhum professor com este id: {professor_id} foi encontrado.",
+                "message": f"Nenhum professor com este id: {professor_id}"
+                / " foi encontrado.",
             },
         )
     professor_query.delete(synchronize_session=False)

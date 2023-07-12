@@ -1,20 +1,18 @@
 version: "3.8"
 
 services:
-  # app:
-  #   build:
-  #     context: .
-  #     dockerfile: local.Dockerfile
-  #   environment:
-  #     - POSTGRES_USER=postgres
-  #     - POSTGRES_PASSWORD=admin
-  #     - POSTGRES_SERVER=database
-  #     - POSTGRES_DB=escoladb
-  #     - BACKEND_CORS_ORIGINS=["http://localhost:8000", "https://localhost:8000", "http://localhost:3000", "https://localhost"]
-  #   depends_on:
-  #     - database
-  #   ports:
-  #     - "8000:8000"
+  app:
+    build:
+      context: .
+      dockerfile: local.Dockerfile
+    env_file: .env
+    depends_on:
+      - database
+    ports:
+      - "8000:8000"
+    networks:
+      - fastapi
+
   database:
     image: postgres:12
     hostname: database
@@ -23,5 +21,15 @@ services:
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: escoladb
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+    volumes:
+      - db:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      - fastapi
+
+volumes:
+  db:
+networks:
+  fastapi:
+    external: true

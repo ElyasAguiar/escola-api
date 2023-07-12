@@ -1,11 +1,12 @@
 import logging
-from app.database import SessionLocal
+
+from sqlmodel import Session
 
 from start_point import schemas
 from start_point.models import models
 
 
-def create_aluno(db: SessionLocal, aluno: schemas.Aluno):
+def create_aluno(db: Session, aluno: schemas.Aluno):
     try:
         data_aluno = models.Aluno(
             tx_nome=aluno.tx_nome,
